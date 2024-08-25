@@ -84,9 +84,9 @@ class SoccerFieldCanvas(tk.Canvas):
         for color, player in self.players.items():
             x, y = player.get_coordinates()
             angle = player.angle
-            self.control_panel.update_control_panel(color, x, y, angle)
+            self.control_panel.update(color, x, y, angle)
             
-class PlayerControlPanel(tk.Frame):
+class SinglePlayerControlPanel(tk.Frame):
     def __init__(self, parent, color, id, canvas):
         super().__init__(parent)
         self.color = color
@@ -143,7 +143,7 @@ class PlayerControlPanel(tk.Frame):
         x, y = player.get_coordinates()
         self.update_labels(player.number, x, y, new_angle)
 
-class ControlPanel(tk.Frame):
+class PlayersControlPanel(tk.Frame):
     def __init__(self, master, canvas):
         super().__init__(master)
         self.canvas = canvas
@@ -152,20 +152,33 @@ class ControlPanel(tk.Frame):
 
     def create_players_panels(self):
         for i, color in enumerate(["red", "green", "blue"]):
-            player_panel = PlayerControlPanel(self, color, i, self.canvas)
+            player_panel = SinglePlayerControlPanel(self, color, i, self.canvas)
             player_panel.grid(row=0, column=i, padx=10, pady=5)
     
-    def update_control_panel(self, color, x, y, angle):
+    def update(self, color, x, y, angle):
         for widget in self.winfo_children():
-            if isinstance(widget, PlayerControlPanel) and widget.color == color:
+            if isinstance(widget, SinglePlayerControlPanel) and widget.color == color:
                 widget.update_labels(widget.canvas.players[color].number, x, y, angle)
+
+class ControPanel(tk.Frame):
+    def __init__(self, master, canvas):
+        super().__init__(master)
+        self.canvas = canvas
+        self.pack(fill=tk.BOTH, expand=True)
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.players_panel = PlayersControlPanel(self, self.canvas)
+    
+    def update(self, color, x, y, angle):
+        self.players_panel.update(color, x, y, angle)
 
 def main():
     root = tk.Tk()
     root.title("VSS Positioning System")
     
     field = SoccerFieldCanvas(root, None, width=800, height=500)
-    control_panel = ControlPanel(root, field)
+    control_panel = PlayersControlPanel(root, field)
     field.control_panel = control_panel
 
     root.mainloop()
