@@ -85,7 +85,7 @@ class SoccerFieldCanvas(tk.Canvas):
             x, y = player.get_coordinates()
             angle = player.angle
             self.control_panel.update_control_panel(color, x, y, angle)
-
+            
 class PlayerControlPanel(tk.Frame):
     def __init__(self, parent, color, id, canvas):
         super().__init__(parent)
@@ -164,9 +164,9 @@ def main():
     root = tk.Tk()
     root.title("VSS Positioning System")
     
-    canvas = SoccerFieldCanvas(root, None, width=800, height=500)
-    control_panel = ControlPanel(root, canvas)
-    canvas.control_panel = control_panel
+    field = SoccerFieldCanvas(root, None, width=800, height=500)
+    control_panel = ControlPanel(root, field)
+    field.control_panel = control_panel
 
     root.mainloop()
 
