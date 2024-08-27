@@ -10,7 +10,7 @@ class PlayersControlPanel(tk.Frame):
     def create_players_panels(self):
         for i, color in enumerate(["red", "green", "blue"]):
             player_panel = SinglePlayerControlPanel(self, color, i, self.canvas)
-            player_panel.grid(row=0, column=i, pady=5)
+            player_panel.grid(row=0, column=i, padx=10, pady=5)
     
     def update(self, color, x, y, angle):
         for widget in self.winfo_children():
