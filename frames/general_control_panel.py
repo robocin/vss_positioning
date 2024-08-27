@@ -9,9 +9,14 @@ class GeneralControlPanel(tk.Frame):
     def create_widgets(self):
         # Play Type Label and Combobox (non-editable)
         tk.Label(self, text="Play Type:").pack(side=tk.TOP, pady=5)
-        self.play_type = ttk.Combobox(self, values=["Kickoff", "Penalty", "Freeball"], state="readonly")
+        self.play_type = ttk.Combobox(self, values=["Kickoff", "Penalty", "Freeball"], state="readonly", width=15)
         self.play_type.pack(side=tk.TOP, pady=5)
         self.play_type.current(0)
+        
+        # Attacking/Defending Toggle Button
+        self.attack_defend_var = tk.StringVar(value="Attacking")
+        self.toggle_button = tk.Button(self, text="Attacking", command=self.toggle_action)
+        self.toggle_button.pack(side=tk.TOP, pady=10)
         
         # Save and Reset Buttons
         button_frame = tk.Frame(self)
@@ -23,10 +28,6 @@ class GeneralControlPanel(tk.Frame):
         self.reset_button = tk.Button(button_frame, text="Reset", command=self.reset_action)
         self.reset_button.pack(side=tk.LEFT, padx=5)
         
-        # Attacking/Defending Toggle Button
-        self.attack_defend_var = tk.StringVar(value="Attacking")
-        self.toggle_button = tk.Button(self, text="Attacking", command=self.toggle_action)
-        self.toggle_button.pack(side=tk.TOP, pady=10)
 
     def save_action(self):
         # Implement save functionality

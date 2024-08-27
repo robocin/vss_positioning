@@ -12,15 +12,17 @@ class ControlPanel(tk.Frame):
 
     def create_widgets(self):
         # Add the dropdown menu for selecting the play type
-        options_frame = tk.Frame(self)
-        options_frame.grid(row=0, column=0, pady=5, sticky="n")
-        
-        self.general_panel = GeneralControlPanel(options_frame)
-        self.general_panel.grid(row=0, column=0, pady=5, sticky="n")
-        
+        self.general_panel = GeneralControlPanel(self)
+        self.general_panel.grid(row=0, column=0, pady=5, sticky="nsew")
+
         # Add the players control panel next to the dropdown
         self.players_panel = PlayersControlPanel(self, self.canvas)
-        self.players_panel.grid(row=0, column=1, pady=5, sticky="n")
+        self.players_panel.grid(row=0, column=1, pady=5, sticky="nsew")
+
+        # Configure the grid to make the widgets fill the space
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
     
     def update(self, color, x, y, angle):
         self.players_panel.update(color, x, y, angle)
