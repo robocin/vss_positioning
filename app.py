@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 class Player:
     def __init__(self, canvas, cx, cy, size, color, number):
@@ -147,20 +148,68 @@ class PlayersControlPanel(tk.Frame):
     def __init__(self, master, canvas):
         super().__init__(master)
         self.canvas = canvas
-        self.pack(fill=tk.BOTH, expand=True)
         self.create_players_panels()
 
     def create_players_panels(self):
         for i, color in enumerate(["red", "green", "blue"]):
             player_panel = SinglePlayerControlPanel(self, color, i, self.canvas)
-            player_panel.grid(row=0, column=i, padx=10, pady=5)
+            player_panel.grid(row=0, column=i, pady=5)
     
     def update(self, color, x, y, angle):
         for widget in self.winfo_children():
             if isinstance(widget, SinglePlayerControlPanel) and widget.color == color:
                 widget.update_labels(widget.canvas.players[color].number, x, y, angle)
 
-class ControPanel(tk.Frame):
+class GeneralControlPanel(tk.Frame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.create_widgets()
+
+    def create_widgets(self):
+        # Play Type Label and Combobox (non-editable)
+        tk.Label(self, text="Play Type:").pack(side=tk.TOP, pady=5)
+        self.play_type = ttk.Combobox(self, values=["Kickoff", "Penalty", "Freeball"], state="readonly")
+        self.play_type.pack(side=tk.TOP, pady=5)
+        self.play_type.current(0)
+        
+        # Save and Reset Buttons
+        button_frame = tk.Frame(self)
+        button_frame.pack(side=tk.TOP, pady=10)
+        
+        self.save_button = tk.Button(button_frame, text="Save", command=self.save_action)
+        self.save_button.pack(side=tk.LEFT, padx=5)
+        
+        self.reset_button = tk.Button(button_frame, text="Reset", command=self.reset_action)
+        self.reset_button.pack(side=tk.LEFT, padx=5)
+        
+        # Attacking/Defending Toggle Button
+        self.attack_defend_var = tk.StringVar(value="Attacking")
+        self.toggle_button = tk.Button(self, text="Attacking", command=self.toggle_action)
+        self.toggle_button.pack(side=tk.TOP, pady=10)
+
+    def save_action(self):
+        # Implement save functionality
+        print(f"Play Type saved: {self.play_type.get()}")
+        print(f"Current mode: {self.attack_defend_var.get()}")
+
+    def reset_action(self):
+        # Implement reset functionality
+        self.play_type.current(0)
+        self.attack_defend_var.set("Attacking")
+        self.toggle_button.config(text="Attacking")
+        print("Settings have been reset.")
+
+    def toggle_action(self):
+        # Toggle between Attacking and Defending
+        if self.attack_defend_var.get() == "Attacking":
+            self.attack_defend_var.set("Defending")
+            self.toggle_button.config(text="Defending")
+        else:
+            self.attack_defend_var.set("Attacking")
+            self.toggle_button.config(text="Attacking")
+        print(f"Toggled to: {self.attack_defend_var.get()}")
+
+class ControlPanel(tk.Frame):
     def __init__(self, master, canvas):
         super().__init__(master)
         self.canvas = canvas
@@ -168,7 +217,16 @@ class ControPanel(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        # Add the dropdown menu for selecting the play type
+        options_frame = tk.Frame(self)
+        options_frame.grid(row=0, column=0, pady=5, sticky="n")
+        
+        self.general_panel = GeneralControlPanel(options_frame)
+        self.general_panel.grid(row=0, column=0, pady=5, sticky="n")
+        
+        # Add the players control panel next to the dropdown
         self.players_panel = PlayersControlPanel(self, self.canvas)
+        self.players_panel.grid(row=0, column=1, pady=5, sticky="n")
     
     def update(self, color, x, y, angle):
         self.players_panel.update(color, x, y, angle)
@@ -178,7 +236,7 @@ def main():
     root.title("VSS Positioning System")
     
     field = SoccerFieldCanvas(root, None, width=800, height=500)
-    control_panel = PlayersControlPanel(root, field)
+    control_panel = ControlPanel(root, field)
     field.control_panel = control_panel
 
     root.mainloop()
