@@ -30,6 +30,33 @@ class SoccerFieldCanvas(tk.Canvas):
         # Draw the goal areas
         self.create_rectangle(0, 120, 60, 400, outline='white', width=2)  # Left goal area
         self.create_rectangle(540, 120, 600, 400, outline='white', width=2)  # Right goal area
+
+        # Draw the 6 field marks
+
+        ## Top Left
+        self.create_line(150, 92, 150, 108, fill='white', width=2)
+        self.create_line(142, 100, 158, 100, fill='white', width=2)
+
+        ## Mid Left
+        self.create_line(150, 252, 150, 268, fill='white', width=2)
+        self.create_line(142, 260, 158, 260, fill='white', width=2)
+
+        ## Bottom Left
+        self.create_line(150, 412, 150, 428, fill='white', width=2)
+        self.create_line(142, 420, 158, 420, fill='white', width=2)
+
+        ## Top Right
+        self.create_line(450, 92, 450, 108, fill='white', width=2)
+        self.create_line(442, 100, 458, 100, fill='white', width=2)
+
+        ## Mid Right
+        self.create_line(450, 252, 450, 268, fill='white', width=2)
+        self.create_line(442, 260, 458, 260, fill='white', width=2)
+
+        ## Bottom Right
+        self.create_line(450, 412, 450, 428, fill='white', width=2)
+        self.create_line(442, 420, 458, 420, fill='white', width=2)
+        
     
     def update_entries(self):
         for color, player in self.players.items():
