@@ -22,14 +22,14 @@ class SoccerFieldCanvas(tk.Canvas):
     
     def create_field_markings(self):
         # Draw the center line
-        self.create_line(400, 0, 400, 500, fill='white', width=2)
+        self.create_line(300, 0, 300, 520, fill='white', width=2)
         
         # Draw the center circle
-        self.create_oval(350, 200, 450, 300, outline='white', width=2)
+        self.create_oval(221, 181, 379, 339, outline='white', width=2)
         
         # Draw the goal areas
-        self.create_rectangle(0, 175, 50, 325, outline='white', width=2)  # Left goal area
-        self.create_rectangle(750, 175, 800, 325, outline='white', width=2)  # Right goal area
+        self.create_rectangle(0, 120, 60, 400, outline='white', width=2)  # Left goal area
+        self.create_rectangle(540, 120, 600, 400, outline='white', width=2)  # Right goal area
     
     def update_entries(self):
         for color, player in self.players.items():

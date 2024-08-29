@@ -7,7 +7,7 @@ def main():
     root = tk.Tk()
     root.title("VSS Positioning System")
     
-    field = SoccerFieldCanvas(root, None, width=800, height=500)
+    field = SoccerFieldCanvas(root, None, width=600, height=520)
     control_panel = ControlPanel(root, field)
     field.control_panel = control_panel
 
