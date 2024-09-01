@@ -10,9 +10,9 @@ class SoccerFieldCanvas(tk.Canvas):
         self.create_field_markings()
         
         self.players = {
-            "red": Player(self, 100, 150, 30, 'red', 1, self.controller),
-            "green": Player(self, 300, 150, 30, 'green', 2, self.controller),
-            "blue": Player(self, 500, 150, 30, 'blue', 3, self.controller)
+            "red": Player(self, 0, 0, 30, 'red', 1, self.controller),
+            "green": Player(self, 0, 0, 30, 'green', 2, self.controller),
+            "blue": Player(self, 0, 0, 30, 'blue', 3, self.controller)
         }
 
         self.draw_players()

@@ -50,4 +50,10 @@ class FormationMenu(tk.Frame):
             self.attack_defend_var.set("Attacking")
             self.toggle_button.config(text="Attacking")
         print(f"Toggled to: {self.attack_defend_var.get()}")
+    
+    def is_attacking(self):
+        return self.attack_defend_var.get() == "Attacking"
+    
+    def get_play_type(self):
+        return self.play_type.get()
 

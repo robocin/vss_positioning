@@ -11,8 +11,8 @@ class MainMenu(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.general_panel = FormationMenu(self)
-        self.general_panel.grid(row=0, column=0, pady=5, sticky="nsew")
+        self.formation_menu = FormationMenu(self)
+        self.formation_menu.grid(row=0, column=0, pady=5, sticky="nsew")
 
         self.players_panel = PlayersMenu(self, self.controller)
         self.players_panel.grid(row=0, column=1, pady=5, sticky="nsew")
@@ -23,3 +23,9 @@ class MainMenu(tk.Frame):
 
     def update_players_menu(self, color, x, y, angle):
         self.players_panel.update(color, x, y, angle)
+    
+    def is_attacking(self):
+        return self.formation_menu.is_attacking()
+    
+    def get_play_type(self):
+        return self.formation_menu.get_play_type()
