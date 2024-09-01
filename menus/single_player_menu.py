@@ -1,6 +1,6 @@
 import tkinter as tk
 
-class SinglePlayerControlPanel(tk.Frame):
+class SinglePlayerMenu(tk.Frame):
     def __init__(self, parent, color, id, canvas):
         super().__init__(parent)
         self.color = color

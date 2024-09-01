@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-class GeneralControlPanel(tk.Frame):
+class FormationMenu(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.create_widgets()

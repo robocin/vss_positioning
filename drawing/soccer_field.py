@@ -1,27 +1,23 @@
 import tkinter as tk
-from canvas.player import Player
+from drawing.player import Player
 
 class SoccerFieldCanvas(tk.Canvas):
-    def __init__(self, master, control_panel, **kwargs):
-        super().__init__(master, **kwargs)
-        self.control_panel = control_panel
+    def __init__(self, master, controller):
+        super().__init__(master, width=600, height=520, bg='green')
+        self.controller = controller
         self.pack()
         
-        # Set the background color to green
-        self.configure(bg='green')
-        
-        # Draw the field markings
         self.create_field_markings()
         
-        # Create player instances
         self.players = {
-            "red": Player(self, 100, 150, 30, 'red', 1),
-            "green": Player(self, 300, 150, 30, 'green', 2),
-            "blue": Player(self, 500, 150, 30, 'blue', 3)
+            "red": Player(self, 100, 150, 30, 'red', 1, self.controller),
+            "green": Player(self, 300, 150, 30, 'green', 2, self.controller),
+            "blue": Player(self, 500, 150, 30, 'blue', 3, self.controller)
         }
-    
+
+        self.draw_players()
+
     def create_field_markings(self):
-        # Draw the center line
         self.create_line(300, 0, 300, 520, fill='white', width=2)
         
         # Draw the center circle
@@ -56,11 +52,13 @@ class SoccerFieldCanvas(tk.Canvas):
         ## Bottom Right
         self.create_line(450, 412, 450, 428, fill='white', width=2)
         self.create_line(442, 420, 458, 420, fill='white', width=2)
-        
-    
-    def update_entries(self):
-        for color, player in self.players.items():
-            x, y = player.get_coordinates()
-            angle = player.angle
-            self.control_panel.update(color, (x-300)*5/2, -(y-260)*5/2, angle)
-   
+ 
+    def draw_players(self):
+        for player in self.players.values():
+            player.draw()
+
+    # def update_entries(self):
+    #     for color, player in self.players.items():
+    #         x, y = player.get_coordinates()
+    #         angle = player.angle
+    #         self.controller.update_player(color, (x-300)*5/2, -(y-260)*5/2, angle)
