@@ -6,5 +6,8 @@ class Controller:
         self.canvas = SoccerFieldCanvas(root, self)
         self.menu = MainMenu(root, self)
     
-    def update_player(self, color, x, y, angle):
-        self.menu.update(color, x, y, angle)
+    def update_players_menu(self, color, x, y, angle):
+        self.menu.update_players_menu(color, x, y, angle)
+
+    def load_default_formations():
+        

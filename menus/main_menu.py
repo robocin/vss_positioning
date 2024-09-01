@@ -21,5 +21,5 @@ class MainMenu(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-    def update(self, color, x, y, angle):
+    def update_players_menu(self, color, x, y, angle):
         self.players_panel.update(color, x, y, angle)

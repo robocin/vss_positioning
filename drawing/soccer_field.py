@@ -56,9 +56,3 @@ class SoccerFieldCanvas(tk.Canvas):
     def draw_players(self):
         for player in self.players.values():
             player.draw()
-
-    # def update_entries(self):
-    #     for color, player in self.players.items():
-    #         x, y = player.get_coordinates()
-    #         angle = player.angle
-    #         self.controller.update_player(color, (x-300)*5/2, -(y-260)*5/2, angle)
