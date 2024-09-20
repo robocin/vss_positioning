@@ -39,9 +39,9 @@ class Player:
     
     def set_angle(self, angle):
         self.angle = angle
+        cx, cy = self.get_coordinates()
         self.canvas.delete(self.rect_id)
         self.canvas.delete(self.text_id)
-        cx, cy = self.get_coordinates()
         self.rect_id = self.create_rectangle(cx, cy)
         self.text_id = self.create_text(cx, cy)
         self.canvas.update_entries()

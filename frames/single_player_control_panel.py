@@ -52,13 +52,17 @@ class SinglePlayerControlPanel(tk.Frame):
 
     def update_x_position(self):
         x = int(self.x_spinbox.get())
+        #original_x = (x * (2/5)) + 300
         current_x, _ = self.canvas.players[self.color].get_coordinates()
+        #dx = original_x - current_x
         dx = x - current_x
         self.update_position(dx, 0)
 
     def update_y_position(self):
         y = int(self.y_spinbox.get())
+        #original_y = -(y * (2/5)) + 260
         _, current_y = self.canvas.players[self.color].get_coordinates()
+        #dy = original_y - current_y
         dy = y - current_y
         self.update_position(0, dy)
 
