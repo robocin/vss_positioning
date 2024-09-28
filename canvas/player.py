@@ -1,4 +1,5 @@
 import tkinter as tk
+import math
 
 class Player:
     def __init__(self, canvas, cx, cy, size, color, number):
@@ -18,6 +19,9 @@ class Player:
         half_size = self.size / 2
         return self.canvas.create_rectangle(cx - half_size, cy - half_size, cx + half_size, cy + half_size, fill=self.color)
     
+    def create_polygon(self, points):
+        return self.canvas.create_polygon(points, fill=self.color)
+
     def create_text(self, cx, cy):
         return self.canvas.create_text(cx, cy, text=self.number, fill='white', font=('Arial', 12, 'bold'))
     
@@ -42,10 +46,39 @@ class Player:
         cx, cy = self.get_coordinates()
         self.canvas.delete(self.rect_id)
         self.canvas.delete(self.text_id)
-        self.rect_id = self.create_rectangle(cx, cy)
+        half_size = self.size / 2
+        theta = math.radians(angle)
+
+        # Coordenadas originais dos vértices
+        x1, y1 = cx - half_size, cy - half_size  # Top-left
+        x2, y2 = cx + half_size, cy - half_size  # Top-right
+        x3, y3 = cx + half_size, cy + half_size  # Bottom-right
+        x4, y4 = cx - half_size, cy + half_size  # Bottom-left
+
+        rotated_coordinates = [
+        (cx + (x1 - cx) * math.cos(theta) - (y1 - cy) * math.sin(theta),
+         cy + (x1 - cx) * math.sin(theta) + (y1 - cy) * math.cos(theta)),
+
+        (cx + (x2 - cx) * math.cos(theta) - (y2 - cy) * math.sin(theta),
+         cy + (x2 - cx) * math.sin(theta) + (y2 - cy) * math.cos(theta)),
+
+        (cx + (x3 - cx) * math.cos(theta) - (y3 - cy) * math.sin(theta),
+         cy + (x3 - cx) * math.sin(theta) + (y3 - cy) * math.cos(theta)),
+
+        (cx + (x4 - cx) * math.cos(theta) - (y4 - cy) * math.sin(theta),
+         cy + (x4 - cx) * math.sin(theta) + (y4 - cy) * math.cos(theta))
+    ]
+
+        self.rect_id = self.create_polygon(rotated_coordinates)
         self.text_id = self.create_text(cx, cy)
         self.canvas.update_entries()
     
     def get_coordinates(self):
-        x1, y1, x2, y2 = self.canvas.coords(self.rect_id)
-        return int((x1 + x2) / 2), int((y1 + y2) / 2)
+        coords = self.canvas.coords(self.rect_id)
+
+        # Calcula o centro
+        x_sum = sum(coords[i] for i in range(0, len(coords), 2))  # Soma das coordenadas x
+        y_sum = sum(coords[i] for i in range(1, len(coords), 2))  # Soma das coordenadas y
+        n = len(coords) // 2  # Número de vértices
+
+        return int(x_sum / n), int(y_sum / n)  # Retorna o centro (x, y)
