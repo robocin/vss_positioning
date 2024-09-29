@@ -46,6 +46,19 @@ class Player:
         cx, cy = self.get_coordinates()
         self.canvas.delete(self.rect_id)
         self.canvas.delete(self.text_id)
+        
+        rotated_coordinates = self.calc_rotated_coords(cx, cy, angle)
+
+        self.rect_id = self.create_polygon(rotated_coordinates)
+        self.text_id = self.create_text(cx, cy)
+
+        # Atualiza os bindings para o novo polígono
+        self.canvas.tag_bind(self.rect_id, '<ButtonPress-1>', self.on_press)
+        self.canvas.tag_bind(self.rect_id, '<B1-Motion>', self.on_motion)
+
+        self.canvas.update_entries()
+
+    def calc_rotated_coords(self, cx, cy, angle):
         half_size = self.size / 2
         theta = math.radians(angle)
 
@@ -55,22 +68,20 @@ class Player:
         x4, y4 = cx - half_size, cy + half_size
 
         rotated_coordinates = [
-        (cx + (x1 - cx) * math.cos(theta) - (y1 - cy) * math.sin(theta),
-         cy + (x1 - cx) * math.sin(theta) + (y1 - cy) * math.cos(theta)),
+            (cx + (x1 - cx) * math.cos(theta) - (y1 - cy) * math.sin(theta),
+            cy + (x1 - cx) * math.sin(theta) + (y1 - cy) * math.cos(theta)),
 
-        (cx + (x2 - cx) * math.cos(theta) - (y2 - cy) * math.sin(theta),
-         cy + (x2 - cx) * math.sin(theta) + (y2 - cy) * math.cos(theta)),
+            (cx + (x2 - cx) * math.cos(theta) - (y2 - cy) * math.sin(theta),
+            cy + (x2 - cx) * math.sin(theta) + (y2 - cy) * math.cos(theta)),
 
-        (cx + (x3 - cx) * math.cos(theta) - (y3 - cy) * math.sin(theta),
-         cy + (x3 - cx) * math.sin(theta) + (y3 - cy) * math.cos(theta)),
+            (cx + (x3 - cx) * math.cos(theta) - (y3 - cy) * math.sin(theta),
+            cy + (x3 - cx) * math.sin(theta) + (y3 - cy) * math.cos(theta)),
 
-        (cx + (x4 - cx) * math.cos(theta) - (y4 - cy) * math.sin(theta),
-         cy + (x4 - cx) * math.sin(theta) + (y4 - cy) * math.cos(theta))
-    ]
+            (cx + (x4 - cx) * math.cos(theta) - (y4 - cy) * math.sin(theta),
+            cy + (x4 - cx) * math.sin(theta) + (y4 - cy) * math.cos(theta))
+        ]
 
-        self.rect_id = self.create_polygon(rotated_coordinates)
-        self.text_id = self.create_text(cx, cy)
-        self.canvas.update_entries()
+        return rotated_coordinates
     
     def get_coordinates(self):
         coords = self.canvas.coords(self.rect_id)
