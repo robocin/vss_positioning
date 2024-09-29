@@ -20,7 +20,7 @@ class Player:
         return self.canvas.create_rectangle(cx - half_size, cy - half_size, cx + half_size, cy + half_size, fill=self.color)
     
     def create_polygon(self, points):
-        return self.canvas.create_polygon(points, fill=self.color)
+        return self.canvas.create_polygon(points, fill=self.color, outline='black', width=1)
 
     def create_text(self, cx, cy):
         return self.canvas.create_text(cx, cy, text=self.number, fill='white', font=('Arial', 12, 'bold'))
@@ -49,11 +49,10 @@ class Player:
         half_size = self.size / 2
         theta = math.radians(angle)
 
-        # Coordenadas originais dos vértices
-        x1, y1 = cx - half_size, cy - half_size  # Top-left
-        x2, y2 = cx + half_size, cy - half_size  # Top-right
-        x3, y3 = cx + half_size, cy + half_size  # Bottom-right
-        x4, y4 = cx - half_size, cy + half_size  # Bottom-left
+        x1, y1 = cx - half_size, cy - half_size
+        x2, y2 = cx + half_size, cy - half_size
+        x3, y3 = cx + half_size, cy + half_size
+        x4, y4 = cx - half_size, cy + half_size
 
         rotated_coordinates = [
         (cx + (x1 - cx) * math.cos(theta) - (y1 - cy) * math.sin(theta),
@@ -76,9 +75,8 @@ class Player:
     def get_coordinates(self):
         coords = self.canvas.coords(self.rect_id)
 
-        # Calcula o centro
-        x_sum = sum(coords[i] for i in range(0, len(coords), 2))  # Soma das coordenadas x
-        y_sum = sum(coords[i] for i in range(1, len(coords), 2))  # Soma das coordenadas y
-        n = len(coords) // 2  # Número de vértices
+        x_sum = sum(coords[i] for i in range(0, len(coords), 2))
+        y_sum = sum(coords[i] for i in range(1, len(coords), 2))
+        n = len(coords) // 2
 
-        return int(x_sum / n), int(y_sum / n)  # Retorna o centro (x, y)
+        return int(x_sum / n), int(y_sum / n)
